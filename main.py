@@ -2,10 +2,11 @@ from flask import Flask, render_template, request, flash, jsonify, make_response
 
 import redis
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='public')
 app.secret_key = "super secret key"
 
-r = redis.Redis(host='redis-11720.c245.us-east-1-3.ec2.cloud.redislabs.com', password='abc', port=11720)
+r = redis.Redis(host='redis-11720.c245.us-east-1-3.ec2.cloud.redislabs.com', username='default', password='abcd',
+                port=11720)
 print("conn again")
 last_id = 0
 
@@ -32,7 +33,7 @@ def home():
         r.lpush("post_id", last_id)
         flash("Successfully submitted the post please check it in all posts or recent posts", category='success')
 
-    return render_template("public/home.html")
+    return render_template("home.html")
 
 
 @app.route("/all")
