@@ -5,7 +5,7 @@ import redis
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
-r = redis.Redis('192.168.99.100')
+r = redis.Redis(host='redis-11720.c245.us-east-1-3.ec2.cloud.redislabs.com', password='abc', port=11720)
 print("conn again")
 last_id = 0
 
@@ -32,7 +32,7 @@ def home():
         r.lpush("post_id", last_id)
         flash("Successfully submitted the post please check it in all posts or recent posts", category='success')
 
-    return render_template("home.html")
+    return render_template("public/home.html")
 
 
 @app.route("/all")
@@ -46,7 +46,6 @@ def all_posts():
     for name_key in names:
         list = name_key.decode("utf-8").split(":")
         key_id = list[len(list) - 1]
-         
 
     return render_template("all.html", posts=data)
 
